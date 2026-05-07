@@ -2,12 +2,13 @@ import { ArticleGridSkeleton } from '@/components/ArticleCardSkeleton';
 
 export default function HomeLoading() {
   return (
-    <section className="space-y-6">
-      <header className="space-y-2">
-        <div className="h-9 w-64 rounded bg-zinc-200 motion-safe:animate-pulse" />
-        <div className="h-5 w-96 max-w-full rounded bg-zinc-200 motion-safe:animate-pulse" />
-      </header>
+    <div className="space-y-10">
+      <section className="space-y-3">
+        <div className="h-3 w-32 rounded bg-zinc-200 motion-safe:animate-pulse" />
+        <div className="h-9 w-full max-w-xl rounded-lg bg-zinc-200 motion-safe:animate-pulse" />
+        <div className="h-5 w-full max-w-2xl rounded bg-zinc-200 motion-safe:animate-pulse" />
+      </section>
       <ArticleGridSkeleton count={9} />
-    </section>
+    </div>
   );
 }

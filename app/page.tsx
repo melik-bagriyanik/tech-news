@@ -7,12 +7,20 @@ export default async function HomePage() {
   const articles = await getArticles({ perPage: 12 });
 
   return (
-    <section className="space-y-6">
-      <header className="space-y-2">
-        <h1 className="text-3xl font-bold tracking-tight">Latest articles</h1>
-        <p className="text-zinc-600">Curated tech articles from the developer community.</p>
-      </header>
+    <div className="space-y-10">
+      <section className="space-y-3">
+        <p className="text-xs font-semibold tracking-widest text-emerald-700 uppercase">
+          Latest articles
+        </p>
+        <h1 className="max-w-2xl text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
+          Tech stories from the developer community
+        </h1>
+        <p className="max-w-2xl text-base leading-relaxed text-zinc-600">
+          A curated feed of articles published on dev.to — engineering deep dives, build logs, and
+          opinions, refreshed every five minutes.
+        </p>
+      </section>
       <ArticleGrid articles={articles} />
-    </section>
+    </div>
   );
 }

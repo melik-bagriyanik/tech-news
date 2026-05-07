@@ -44,22 +44,29 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col bg-white text-zinc-900">
-        <header className="border-b border-zinc-200">
-          <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
+      <body className="flex min-h-full flex-col text-zinc-900">
+        <header className="sticky top-0 z-30 border-b border-zinc-200/60 bg-white/75 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+          <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
             <Link
               href="/"
-              className="text-xl font-bold tracking-tight text-zinc-900 hover:text-zinc-700"
+              className="flex items-center gap-2 text-lg font-semibold tracking-tight text-zinc-900 transition-colors hover:text-zinc-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-4 focus-visible:ring-offset-white"
             >
+              <span
+                aria-hidden="true"
+                className="inline-block h-2.5 w-2.5 rounded-full bg-gradient-to-br from-emerald-400 to-cyan-500"
+              />
               {SITE_NAME}
             </Link>
+            <span className="text-xs font-medium tracking-wide text-zinc-500 uppercase">
+              Powered by dev.to
+            </span>
           </div>
         </header>
-        <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">{children}</main>
-        <footer className="border-t border-zinc-200">
-          <div className="mx-auto max-w-6xl px-4 py-6 text-sm text-zinc-500">
-            © {new Date().getFullYear()} {SITE_NAME}
-          </div>
+        <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-10 sm:px-6 sm:py-12">
+          {children}
+        </main>
+        <footer className="mt-12 px-4 pb-10 text-center text-xs text-zinc-500 sm:px-6">
+          © {new Date().getFullYear()} {SITE_NAME} · Article data from dev.to public API
         </footer>
       </body>
     </html>

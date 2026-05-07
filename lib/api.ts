@@ -18,9 +18,18 @@ interface RawArticleListItem {
   social_image: string | null;
   published_at: string;
   reading_time_minutes: number;
-  tag_list: string[];
+  tag_list: string[] | string;
   url: string;
   user: RawAuthor;
+}
+
+function normalizeTagList(tagList: string[] | string | null | undefined): string[] {
+  if (!tagList) return [];
+  if (Array.isArray(tagList)) return tagList;
+  return tagList
+    .split(',')
+    .map((tag) => tag.trim())
+    .filter(Boolean);
 }
 
 interface RawArticleDetail extends RawArticleListItem {
@@ -53,7 +62,7 @@ function mapArticle(raw: RawArticleListItem): Article {
     coverImage: raw.cover_image ?? raw.social_image ?? null,
     publishedAt: raw.published_at,
     readingTimeMinutes: raw.reading_time_minutes,
-    tags: raw.tag_list,
+    tags: normalizeTagList(raw.tag_list),
     url: raw.url,
     author: mapAuthor(raw.user),
   };
