@@ -4,8 +4,8 @@ import type { Article } from '@/types/article';
 import { formatPublishedDate, truncate } from '@/lib/utils';
 
 interface ArticleCardProps {
-  article: Article;
-  priority?: boolean;
+  readonly article: Article;
+  readonly priority?: boolean;
 }
 
 export function ArticleCard({ article, priority = false }: ArticleCardProps) {
@@ -13,13 +13,13 @@ export function ArticleCard({ article, priority = false }: ArticleCardProps) {
     article;
 
   return (
-    <article className="group relative flex h-full flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-zinc-200/70 transition duration-200 focus-within:ring-2 focus-within:ring-zinc-900 hover:-translate-y-0.5 hover:shadow-md hover:ring-zinc-300">
+    <article className="group relative flex h-full flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-zinc-200/70 transition duration-200 focus-within:ring-2 focus-within:ring-zinc-900 hover:-translate-y-0.5 hover:shadow-md hover:ring-zinc-300 dark:bg-zinc-900 dark:ring-zinc-800/70 dark:focus-within:ring-zinc-100 dark:hover:ring-zinc-700">
       <Link
         href={`/articles/${id}`}
         className="flex h-full flex-1 flex-col outline-none"
         aria-label={title}
       >
-        <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-100">
+        <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-100 dark:bg-zinc-800">
           {coverImage ? (
             <Image
               src={coverImage}
@@ -32,7 +32,7 @@ export function ArticleCard({ article, priority = false }: ArticleCardProps) {
           ) : (
             <div
               aria-hidden="true"
-              className="flex h-full w-full items-center justify-center bg-gradient-to-br from-zinc-100 to-zinc-200 text-sm font-medium text-zinc-400"
+              className="flex h-full w-full items-center justify-center bg-gradient-to-br from-zinc-100 to-zinc-200 text-sm font-medium text-zinc-400 dark:from-zinc-800 dark:to-zinc-900 dark:text-zinc-600"
             >
               No image
             </div>
@@ -45,7 +45,7 @@ export function ArticleCard({ article, priority = false }: ArticleCardProps) {
               {tags.slice(0, 3).map((tag) => (
                 <li
                   key={tag}
-                  className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-600"
+                  className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400"
                 >
                   #{tag}
                 </li>
@@ -53,16 +53,18 @@ export function ArticleCard({ article, priority = false }: ArticleCardProps) {
             </ul>
           )}
 
-          <h2 className="line-clamp-2 text-lg leading-snug font-semibold tracking-tight text-zinc-900 group-hover:text-zinc-700">
+          <h2 className="line-clamp-2 text-lg leading-snug font-semibold tracking-tight text-zinc-900 group-hover:text-zinc-700 dark:text-zinc-100 dark:group-hover:text-zinc-300">
             {title}
           </h2>
 
-          <p className="line-clamp-2 text-sm leading-relaxed text-zinc-600">
+          <p className="line-clamp-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
             {truncate(description, 140)}
           </p>
 
-          <div className="mt-auto flex items-center justify-between gap-3 pt-3 text-xs text-zinc-500">
-            <span className="truncate font-medium text-zinc-700">{author.name}</span>
+          <div className="mt-auto flex items-center justify-between gap-3 pt-3 text-xs text-zinc-500 dark:text-zinc-500">
+            <span className="truncate font-medium text-zinc-700 dark:text-zinc-300">
+              {author.name}
+            </span>
             <span className="flex items-center gap-2 whitespace-nowrap">
               <time dateTime={publishedAt}>{formatPublishedDate(publishedAt)}</time>
               <span aria-hidden="true">·</span>

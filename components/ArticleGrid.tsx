@@ -2,13 +2,13 @@ import type { Article } from '@/types/article';
 import { ArticleCard } from './ArticleCard';
 
 interface ArticleGridProps {
-  articles: Article[];
+  readonly articles: readonly Article[];
 }
 
 export function ArticleGrid({ articles }: ArticleGridProps) {
   if (articles.length === 0) {
     return (
-      <p className="py-12 text-center text-zinc-500">
+      <p className="py-12 text-center text-zinc-500 dark:text-zinc-400">
         No articles found right now. Check back soon.
       </p>
     );
