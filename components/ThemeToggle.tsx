@@ -1,12 +1,36 @@
 'use client';
 
+import type { MouseEvent } from 'react';
 import { useTheme } from 'next-themes';
 
 export function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
 
-  const toggle = () => {
-    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
+  const toggle = (event: MouseEvent<HTMLButtonElement>) => {
+    const next = resolvedTheme === 'dark' ? 'light' : 'dark';
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+    const endRadius = Math.hypot(
+      Math.max(x, globalThis.innerWidth - x),
+      Math.max(y, globalThis.innerHeight - y),
+    );
+
+    const root = document.documentElement;
+    root.style.setProperty('--theme-toggle-x', `${x}px`);
+    root.style.setProperty('--theme-toggle-y', `${y}px`);
+    root.style.setProperty('--theme-toggle-radius', `${endRadius}px`);
+
+    const reducedMotion = globalThis.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (typeof document.startViewTransition !== 'function' || reducedMotion) {
+      setTheme(next);
+      return;
+    }
+
+    document.startViewTransition(() => {
+      setTheme(next);
+    });
   };
 
   return (
