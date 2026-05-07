@@ -24,14 +24,14 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Scripts
 
-| Command              | Purpose                          |
-| -------------------- | -------------------------------- |
-| `npm run dev`        | Start dev server (Turbopack)     |
-| `npm run build`      | Production build                 |
-| `npm start`          | Run production build             |
-| `npm run lint`       | ESLint                           |
-| `npm run format`     | Prettier write                   |
-| `npm run type-check` | `tsc --noEmit`                   |
+| Command              | Purpose                      |
+| -------------------- | ---------------------------- |
+| `npm run dev`        | Start dev server (Turbopack) |
+| `npm run build`      | Production build             |
+| `npm start`          | Run production build         |
+| `npm run lint`       | ESLint                       |
+| `npm run format`     | Prettier write               |
+| `npm run type-check` | `tsc --noEmit`               |
 
 ## Project Structure
 
