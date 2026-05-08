@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 });
 
-const SITE_NAME = 'Tech News';
+const SITE_NAME = 'Melik News';
 const SITE_DESCRIPTION = 'Curated tech articles from the developer community.';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
 

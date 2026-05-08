@@ -1,9 +1,12 @@
 import type { Article } from '@/types/article';
 import { ArticleCard } from './ArticleCard';
+import { MotionStaggerItem, MotionStaggerList } from './motion/MotionStaggerList';
 
 interface ArticleGridProps {
   readonly articles: readonly Article[];
 }
+
+const GRID_CLASSES = 'grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3';
 
 export function ArticleGrid({ articles }: ArticleGridProps) {
   if (articles.length === 0) {
@@ -15,12 +18,12 @@ export function ArticleGrid({ articles }: ArticleGridProps) {
   }
 
   return (
-    <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <MotionStaggerList className={GRID_CLASSES}>
       {articles.map((article, index) => (
-        <li key={article.id}>
+        <MotionStaggerItem key={article.id}>
           <ArticleCard article={article} priority={index < 3} />
-        </li>
+        </MotionStaggerItem>
       ))}
-    </ul>
+    </MotionStaggerList>
   );
 }

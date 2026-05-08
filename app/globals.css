@@ -83,14 +83,11 @@ button:focus-visible {
 
   @keyframes theme-reveal {
     from {
-      clip-path: circle(
-        0 at var(--theme-toggle-x, 50%) var(--theme-toggle-y, 50%)
-      );
+      clip-path: circle(0 at var(--theme-toggle-x, 50%) var(--theme-toggle-y, 50%));
     }
     to {
       clip-path: circle(
-        var(--theme-toggle-radius, 150%) at var(--theme-toggle-x, 50%)
-          var(--theme-toggle-y, 50%)
+        var(--theme-toggle-radius, 150%) at var(--theme-toggle-x, 50%) var(--theme-toggle-y, 50%)
       );
     }
   }
