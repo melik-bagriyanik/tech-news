@@ -45,6 +45,8 @@ app/
   page.tsx                    # Home (SSR + ?page= pagination)
   loading.tsx                 # Home skeleton
   error.tsx                   # Home error boundary
+  robots.ts                   # /robots.txt route
+  sitemap.ts                  # /sitemap.xml route (home + recent articles)
   articles/[id]/
     page.tsx                  # Detail page + generateMetadata + generateStaticParams
     loading.tsx               # Detail skeleton
@@ -148,7 +150,8 @@ math (origin + viewport-corner radius) lives in `lib/theme-transition.ts`.
 - Visible `focus-visible:ring` everywhere, contrast preserved in both themes
 - `motion-safe:animate-pulse` on skeletons, `prefers-reduced-motion` honored throughout
 - `<output>` for live skeletons (instead of `div role="status"`)
-- Dynamic detail pages emit `<meta name="robots" content="noindex">` on 404 via Next's `notFound()`
+- Dynamic detail pages emit `<meta name="robots" content="noindex, nofollow">` for invalid/missing articles via `generateMetadata`
+- `app/sitemap.ts` and `app/robots.ts` expose `/sitemap.xml` and `/robots.txt` at build time
 
 ### File size discipline
 
@@ -177,5 +180,6 @@ under jsdom; the React plugin handles JSX transformation. No need to spin up Nex
 ## Deployment
 
 The fastest path is Vercel: push to GitHub, import the repo, and the default Next.js settings
-work. Set `NEXT_PUBLIC_SITE_URL` to the production URL so Open Graph absolute URLs resolve
-correctly. No other environment variables are needed (the dev.to public API is unauthenticated).
+work. Set `NEXT_PUBLIC_SITE_URL` to the production URL so Open Graph absolute URLs, `sitemap.xml`,
+and `robots.txt` resolve correctly. See `.env.example` for the variable. No other environment
+variables are needed (the dev.to public API is unauthenticated).

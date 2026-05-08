@@ -22,13 +22,18 @@ export async function generateStaticParams() {
   }
 }
 
+const NOT_FOUND_METADATA: Metadata = {
+  title: 'Article not found',
+  robots: { index: false, follow: false },
+};
+
 export async function generateMetadata({ params }: ArticlePageProps): Promise<Metadata> {
   const { id } = await params;
   const numericId = Number(id);
-  if (!Number.isInteger(numericId)) return { title: 'Article not found' };
+  if (!Number.isInteger(numericId)) return NOT_FOUND_METADATA;
 
   const article = await getArticleById(numericId);
-  if (!article) return { title: 'Article not found' };
+  if (!article) return NOT_FOUND_METADATA;
 
   const cover = article.coverImage ? [article.coverImage] : [];
   return {
