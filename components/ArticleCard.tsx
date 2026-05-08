@@ -1,8 +1,8 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import type { Article } from '@/types/article';
 import { formatPublishedDate, truncate } from '@/lib/utils';
 import { ArticleTags } from './article/ArticleTags';
+import { MediaImage } from './MediaImage';
 
 interface ArticleCardProps {
   readonly article: Article;
@@ -14,7 +14,7 @@ export function ArticleCard({ article, priority = false }: ArticleCardProps) {
     article;
 
   return (
-    <article className="group relative flex h-full flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-zinc-200/70 transition duration-200 focus-within:ring-2 focus-within:ring-zinc-900 hover:-translate-y-0.5 hover:shadow-md hover:ring-zinc-300 dark:bg-zinc-900 dark:ring-zinc-800/70 dark:focus-within:ring-zinc-100 dark:hover:ring-zinc-700">
+    <article className="group relative flex h-full flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-zinc-200/70 transition duration-300 ease-out focus-within:ring-2 focus-within:ring-zinc-900 hover:-translate-y-1 hover:shadow-lg hover:ring-zinc-300 motion-reduce:transition-none motion-reduce:hover:translate-y-0 dark:bg-zinc-900 dark:ring-zinc-800/70 dark:focus-within:ring-zinc-100 dark:hover:ring-zinc-700">
       <Link
         href={`/articles/${id}`}
         className="flex h-full flex-1 flex-col outline-none"
@@ -22,13 +22,13 @@ export function ArticleCard({ article, priority = false }: ArticleCardProps) {
       >
         <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-100 dark:bg-zinc-800">
           {coverImage ? (
-            <Image
+            <MediaImage
               src={coverImage}
               alt=""
               fill
-              priority={priority}
+              preload={priority}
               sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-              className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+              className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
             />
           ) : (
             <div

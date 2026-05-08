@@ -6,7 +6,8 @@ interface ArticleGridProps {
   readonly articles: readonly Article[];
 }
 
-export const GRID_CLASSES = 'grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3';
+export const GRID_CLASSES =
+  'grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-y-10 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-12';
 
 export function ArticleGrid({ articles }: ArticleGridProps) {
   if (articles.length === 0) {

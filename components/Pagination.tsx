@@ -58,7 +58,7 @@ function hrefForPage(page: number): string {
 }
 
 const BASE =
-  'inline-flex h-11 min-w-11 items-center justify-center rounded-full px-3 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2 dark:focus-visible:ring-zinc-100 dark:focus-visible:ring-offset-zinc-950';
+  'inline-flex h-11 min-w-11 items-center justify-center rounded-full px-3 text-sm font-medium transition duration-200 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2 motion-reduce:transition-none dark:focus-visible:ring-zinc-100 dark:focus-visible:ring-offset-zinc-950';
 
 function PageLink({ page, active }: { readonly page: number; readonly active: boolean }) {
   if (active) {
@@ -75,7 +75,7 @@ function PageLink({ page, active }: { readonly page: number; readonly active: bo
     <Link
       href={hrefForPage(page)}
       aria-label={`Go to page ${page}`}
-      className={`${BASE} text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100`}
+      className={`${BASE} text-zinc-600 hover:scale-105 hover:bg-zinc-100 hover:text-zinc-900 motion-reduce:hover:scale-100 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100`}
     >
       {page}
     </Link>
@@ -92,7 +92,7 @@ function ArrowLink({
   const label = direction === 'prev' ? 'Previous page' : 'Next page';
   const arrow = direction === 'prev' ? '←' : '→';
   const enabled =
-    'bg-white text-zinc-700 shadow-sm ring-1 ring-zinc-200/70 hover:bg-zinc-50 dark:bg-zinc-900 dark:text-zinc-300 dark:ring-zinc-800/70 dark:hover:bg-zinc-800';
+    'bg-white text-zinc-700 shadow-sm ring-1 ring-zinc-200/70 hover:scale-105 hover:bg-zinc-50 motion-reduce:hover:scale-100 dark:bg-zinc-900 dark:text-zinc-300 dark:ring-zinc-800/70 dark:hover:bg-zinc-800';
 
   if (!href) {
     return (
