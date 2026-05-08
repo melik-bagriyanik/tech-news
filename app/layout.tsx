@@ -50,6 +50,11 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <head>
+        <link rel="preconnect" href="https://dev-to-uploads.s3.amazonaws.com" crossOrigin="" />
+        <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://media2.dev.to" />
+      </head>
       <body
         suppressHydrationWarning
         className="flex min-h-full flex-col text-zinc-900 dark:text-zinc-100"
