@@ -9,13 +9,18 @@
 }
 
 :root {
-  --color-page: #fafaf9;
+  --color-page: #faf9f5;
   --color-surface: #ffffff;
+  --color-muted: #f3f2ee;
+  /* Warm cream override for Tailwind's zinc-100 in light mode.
+     Dark mode uses zinc-800 explicitly, so this only affects light. */
+  --color-zinc-100: #f3f2ee;
 }
 
 .dark {
   --color-page: #09090b;
   --color-surface: #18181b;
+  --color-muted: #27272a;
   color-scheme: dark;
 }
 
@@ -45,6 +50,18 @@ button:focus-visible {
 
 .skip-link:focus {
   left: 1rem;
+}
+
+.scroll-to-top {
+  bottom: max(1.25rem, env(safe-area-inset-bottom));
+  right: max(1.25rem, env(safe-area-inset-right));
+}
+
+@media (min-width: 640px) {
+  .scroll-to-top {
+    bottom: max(2rem, env(safe-area-inset-bottom));
+    right: max(2rem, env(safe-area-inset-right));
+  }
 }
 
 /* Theme switch: circular reveal from toggle button */

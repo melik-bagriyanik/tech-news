@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { SiteHeader } from '@/components/SiteHeader';
+import { ScrollToTop } from '@/components/ScrollToTop';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -49,7 +50,10 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col text-zinc-900 dark:text-zinc-100">
+      <body
+        suppressHydrationWarning
+        className="flex min-h-full flex-col text-zinc-900 dark:text-zinc-100"
+      >
         <ThemeProvider>
           <a
             href="#main-content"
@@ -67,6 +71,7 @@ export default function RootLayout({
           <footer className="mt-12 px-4 pb-10 text-center text-xs text-zinc-500 sm:px-6 dark:text-zinc-500">
             © {new Date().getFullYear()} {SITE_NAME} · Article data from dev.to public API
           </footer>
+          <ScrollToTop />
         </ThemeProvider>
       </body>
     </html>
