@@ -20,8 +20,8 @@ export function ArticleGrid({ articles }: ArticleGridProps) {
   return (
     <MotionStaggerList className={GRID_CLASSES}>
       {articles.map((article, index) => (
-        <MotionStaggerItem key={article.id}>
-          <ArticleCard article={article} priority={index < 3} />
+        <MotionStaggerItem key={article.id} index={index}>
+          <ArticleCard article={article} priority={index === 0} />
         </MotionStaggerItem>
       ))}
     </MotionStaggerList>

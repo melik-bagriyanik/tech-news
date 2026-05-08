@@ -4,6 +4,9 @@ A small "Tech News" application built with Next.js 16, TypeScript, and Tailwind 
 articles fetched from the public [dev.to API](https://developers.forem.com/api/), with an
 SSR/SSG-first homepage, dynamic detail pages, dark mode, pagination, and a few tasteful animations.
 
+- **Live demo:** [melik-news.vercel.app](https://melik-news.vercel.app/)
+- **Repository:** [github.com/melik-bagriyanik/tech-news](https://github.com/melik-bagriyanik/tech-news)
+
 ## Stack
 
 - **Next.js 16** (App Router, Turbopack, Server Components, ISR)
@@ -12,6 +15,7 @@ SSR/SSG-first homepage, dynamic detail pages, dark mode, pagination, and a few t
 - **Tailwind CSS 4** (`@theme`, `@plugin`, `@custom-variant`) + `@tailwindcss/typography`
 - **next-themes** for dark mode (system + class strategy)
 - **framer-motion** for stagger and fade animations
+- **isomorphic-dompurify** to sanitize third-party `body_html` before render
 - **Vitest + Testing Library** for unit and component tests
 - **ESLint + Prettier**
 
@@ -120,6 +124,23 @@ five minutes.
 URL-driven pagination keeps results bookmarkable and SEO-friendly. The page is rendered on demand,
 yet the underlying API call is shared across hits within the revalidate window. There is no `next`
 link when fewer than `perPage` items come back, which is what the dev.to API gives us.
+
+### Sanitizing third-party HTML
+
+The dev.to detail endpoint returns rendered `body_html`. Even from a trusted source, piping
+third-party HTML into `dangerouslySetInnerHTML` is an XSS hazard, so `lib/sanitize.ts` runs the
+markup through `isomorphic-dompurify` before render. Sanitization happens server-side (the
+component is a Server Component) and applies three layers:
+
+1. **Forbidden tags** — `script`, `style`, `iframe`, `object`, `embed`, `form`, `meta`, `link`.
+2. **Forbidden attributes** — inline `on*` handlers (`onerror`, `onload`, `onclick`, …).
+3. **URI allowlist** — only `http(s):`, `mailto:`, `tel:`, anchors, and relative paths. This
+   neutralizes `javascript:` and `data:` URLs at the attribute level.
+
+A DOMPurify hook also rewrites every external `<a href="https?://…">` to add
+`target="_blank" rel="noopener noreferrer"`, which both improves UX and prevents reverse
+tabnabbing. The whole pipeline is covered by `__tests__/sanitize.test.ts` (10 cases including
+explicit XSS payloads, `javascript:`/`data:` URLs, and link hardening).
 
 ### tag_list quirk
 

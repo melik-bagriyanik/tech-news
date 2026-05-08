@@ -1,8 +1,4 @@
-'use client';
-
-import type { ReactNode } from 'react';
-import { motion } from 'framer-motion';
-import { staggerContainer, staggerItem } from '@/lib/motion';
+import type { CSSProperties, ReactNode } from 'react';
 
 interface MotionStaggerListProps {
   readonly children: ReactNode;
@@ -10,22 +6,21 @@ interface MotionStaggerListProps {
 }
 
 export function MotionStaggerList({ children, className }: MotionStaggerListProps) {
-  return (
-    <motion.ul className={className} variants={staggerContainer} initial="hidden" animate="visible">
-      {children}
-    </motion.ul>
-  );
+  const classes = className ? `animate-stagger ${className}` : 'animate-stagger';
+  return <ul className={classes}>{children}</ul>;
 }
 
 interface MotionStaggerItemProps {
   readonly children: ReactNode;
   readonly className?: string;
+  readonly index?: number;
 }
 
-export function MotionStaggerItem({ children, className }: MotionStaggerItemProps) {
+export function MotionStaggerItem({ children, className, index = 0 }: MotionStaggerItemProps) {
+  const style = { '--stagger-index': index } as CSSProperties;
   return (
-    <motion.li className={className} variants={staggerItem}>
+    <li className={className} style={style}>
       {children}
-    </motion.li>
+    </li>
   );
 }

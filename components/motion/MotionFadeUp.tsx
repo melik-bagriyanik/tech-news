@@ -1,8 +1,4 @@
-'use client';
-
-import type { ReactNode } from 'react';
-import { motion } from 'framer-motion';
-import { fadeUp } from '@/lib/motion';
+import type { CSSProperties, ReactNode } from 'react';
 
 interface MotionFadeUpProps {
   readonly children: ReactNode;
@@ -11,17 +7,15 @@ interface MotionFadeUpProps {
   readonly as?: 'div' | 'section' | 'header' | 'footer' | 'article';
 }
 
-export function MotionFadeUp({ children, className, delay = 0, as = 'div' }: MotionFadeUpProps) {
-  const MotionTag = motion[as];
+export function MotionFadeUp({ children, className, delay = 0, as: Tag = 'div' }: MotionFadeUpProps) {
+  const style = delay
+    ? ({ '--fade-up-delay': `${delay}s` } as CSSProperties)
+    : undefined;
+  const classes = className ? `animate-fade-up ${className}` : 'animate-fade-up';
+
   return (
-    <MotionTag
-      className={className}
-      variants={fadeUp}
-      initial="hidden"
-      animate="visible"
-      transition={{ delay }}
-    >
+    <Tag className={classes} style={style}>
       {children}
-    </MotionTag>
+    </Tag>
   );
 }
