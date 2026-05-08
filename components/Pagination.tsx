@@ -3,11 +3,12 @@ import Link from 'next/link';
 interface PaginationProps {
   readonly page: number;
   readonly hasNext: boolean;
+  readonly tag?: string | null;
 }
 
 const SIBLINGS = 2;
 
-export function Pagination({ page, hasNext }: PaginationProps) {
+export function Pagination({ page, hasNext, tag = null }: PaginationProps) {
   const hasPrev = page > 1;
   if (!hasPrev && !hasNext) return null;
 
@@ -20,12 +21,12 @@ export function Pagination({ page, hasNext }: PaginationProps) {
       aria-label="Pagination"
       className="mt-10 flex items-center justify-center gap-1.5 sm:gap-2"
     >
-      <ArrowLink direction="prev" href={hasPrev ? hrefForPage(page - 1) : undefined} />
+      <ArrowLink direction="prev" href={hasPrev ? hrefForPage(page - 1, tag) : undefined} />
       <ul className="flex items-center gap-1.5 sm:gap-2">
         {showFirst && (
           <>
             <li>
-              <PageLink page={1} active={false} />
+              <PageLink page={1} tag={tag} active={false} />
             </li>
             {showFirstEllipsis && (
               <li aria-hidden="true" className="px-1 text-zinc-400 select-none dark:text-zinc-600">
@@ -36,11 +37,11 @@ export function Pagination({ page, hasNext }: PaginationProps) {
         )}
         {pages.map((p) => (
           <li key={p}>
-            <PageLink page={p} active={p === page} />
+            <PageLink page={p} tag={tag} active={p === page} />
           </li>
         ))}
       </ul>
-      <ArrowLink direction="next" href={hasNext ? hrefForPage(page + 1) : undefined} />
+      <ArrowLink direction="next" href={hasNext ? hrefForPage(page + 1, tag) : undefined} />
     </nav>
   );
 }
@@ -53,14 +54,26 @@ export function buildPageList(current: number, hasNext: boolean): readonly numbe
   return pages;
 }
 
-function hrefForPage(page: number): string {
-  return page <= 1 ? '/' : `/?page=${page}`;
+function hrefForPage(page: number, tag: string | null): string {
+  const params = new URLSearchParams();
+  if (tag) params.set('tag', tag);
+  if (page > 1) params.set('page', String(page));
+  const qs = params.toString();
+  return qs ? `/?${qs}` : '/';
 }
 
 const BASE =
   'inline-flex h-11 min-w-11 items-center justify-center rounded-full px-3 text-sm font-medium transition duration-200 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2 motion-reduce:transition-none dark:focus-visible:ring-zinc-100 dark:focus-visible:ring-offset-zinc-950';
 
-function PageLink({ page, active }: { readonly page: number; readonly active: boolean }) {
+function PageLink({
+  page,
+  tag,
+  active,
+}: {
+  readonly page: number;
+  readonly tag: string | null;
+  readonly active: boolean;
+}) {
   if (active) {
     return (
       <span
@@ -73,7 +86,7 @@ function PageLink({ page, active }: { readonly page: number; readonly active: bo
   }
   return (
     <Link
-      href={hrefForPage(page)}
+      href={hrefForPage(page, tag)}
       aria-label={`Go to page ${page}`}
       className={`${BASE} text-zinc-600 hover:scale-105 hover:bg-zinc-100 hover:text-zinc-900 motion-reduce:hover:scale-100 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100`}
     >
