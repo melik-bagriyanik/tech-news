@@ -1,8 +1,8 @@
-import { MotionFadeUp } from './motion/MotionFadeUp';
+import { FadeUp } from './animate/FadeUp';
 
 export function HomeHero() {
   return (
-    <MotionFadeUp as="section" className="space-y-3">
+    <FadeUp as="section" className="space-y-3">
       <p className="text-xs font-semibold tracking-widest text-emerald-700 uppercase dark:text-emerald-400">
         Latest articles
       </p>
@@ -13,6 +13,6 @@ export function HomeHero() {
         A curated feed of articles published on dev.to — engineering deep dives, build logs, and
         opinions, refreshed every five minutes.
       </p>
-    </MotionFadeUp>
+    </FadeUp>
   );
 }

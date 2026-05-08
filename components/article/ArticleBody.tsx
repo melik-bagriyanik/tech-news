@@ -1,5 +1,5 @@
 import { sanitizeArticleHtml } from '@/lib/sanitize';
-import { MotionFadeUp } from '@/components/motion/MotionFadeUp';
+import { FadeUp } from '@/components/animate/FadeUp';
 
 interface ArticleBodyProps {
   readonly html: string;
@@ -12,8 +12,8 @@ export function ArticleBody({ html }: ArticleBodyProps) {
   const safeHtml = sanitizeArticleHtml(html);
 
   return (
-    <MotionFadeUp delay={0.15}>
+    <FadeUp delay={0.15}>
       <div className={PROSE_CLASSES} dangerouslySetInnerHTML={{ __html: safeHtml }} />
-    </MotionFadeUp>
+    </FadeUp>
   );
 }

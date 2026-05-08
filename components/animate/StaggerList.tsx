@@ -1,22 +1,22 @@
 import type { CSSProperties, ReactNode } from 'react';
 
-interface MotionStaggerListProps {
+interface StaggerListProps {
   readonly children: ReactNode;
   readonly className?: string;
 }
 
-export function MotionStaggerList({ children, className }: MotionStaggerListProps) {
+export function StaggerList({ children, className }: StaggerListProps) {
   const classes = className ? `animate-stagger ${className}` : 'animate-stagger';
   return <ul className={classes}>{children}</ul>;
 }
 
-interface MotionStaggerItemProps {
+interface StaggerItemProps {
   readonly children: ReactNode;
   readonly className?: string;
   readonly index?: number;
 }
 
-export function MotionStaggerItem({ children, className, index = 0 }: MotionStaggerItemProps) {
+export function StaggerItem({ children, className, index = 0 }: StaggerItemProps) {
   const style = { '--stagger-index': index } as CSSProperties;
   return (
     <li className={className} style={style}>

@@ -1,12 +1,12 @@
 import type { Article } from '@/types/article';
 import { ArticleCard } from './ArticleCard';
-import { MotionStaggerItem, MotionStaggerList } from './motion/MotionStaggerList';
+import { StaggerItem, StaggerList } from './animate/StaggerList';
 
 interface ArticleGridProps {
   readonly articles: readonly Article[];
 }
 
-const GRID_CLASSES = 'grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3';
+export const GRID_CLASSES = 'grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3';
 
 export function ArticleGrid({ articles }: ArticleGridProps) {
   if (articles.length === 0) {
@@ -18,12 +18,12 @@ export function ArticleGrid({ articles }: ArticleGridProps) {
   }
 
   return (
-    <MotionStaggerList className={GRID_CLASSES}>
+    <StaggerList className={GRID_CLASSES}>
       {articles.map((article, index) => (
-        <MotionStaggerItem key={article.id} index={index}>
+        <StaggerItem key={article.id} index={index}>
           <ArticleCard article={article} priority={index === 0} />
-        </MotionStaggerItem>
+        </StaggerItem>
       ))}
-    </MotionStaggerList>
+    </StaggerList>
   );
 }

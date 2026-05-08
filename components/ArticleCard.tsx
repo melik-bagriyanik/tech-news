@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { Article } from '@/types/article';
 import { formatPublishedDate, truncate } from '@/lib/utils';
+import { ArticleTags } from './article/ArticleTags';
 
 interface ArticleCardProps {
   readonly article: Article;
@@ -40,18 +41,7 @@ export function ArticleCard({ article, priority = false }: ArticleCardProps) {
         </div>
 
         <div className="flex flex-1 flex-col gap-3 p-5">
-          {tags.length > 0 && (
-            <ul className="flex flex-wrap gap-1.5">
-              {tags.slice(0, 3).map((tag) => (
-                <li
-                  key={tag}
-                  className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400"
-                >
-                  #{tag}
-                </li>
-              ))}
-            </ul>
-          )}
+          <ArticleTags tags={tags} limit={3} />
 
           <h2 className="line-clamp-2 text-lg leading-snug font-semibold tracking-tight text-zinc-900 group-hover:text-zinc-700 dark:text-zinc-100 dark:group-hover:text-zinc-300">
             {title}

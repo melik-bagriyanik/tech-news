@@ -1,3 +1,5 @@
+import { GRID_CLASSES } from './ArticleGrid';
+
 export function ArticleCardSkeleton() {
   return (
     <output
@@ -33,7 +35,7 @@ interface ArticleGridSkeletonProps {
 
 export function ArticleGridSkeleton({ count = 6 }: ArticleGridSkeletonProps) {
   return (
-    <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" aria-busy="true">
+    <ul className={GRID_CLASSES} aria-busy="true">
       {Array.from({ length: count }, (_, i) => `skeleton-${i}`).map((key) => (
         <li key={key}>
           <ArticleCardSkeleton />

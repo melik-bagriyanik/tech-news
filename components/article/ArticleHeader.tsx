@@ -1,5 +1,5 @@
 import type { Article } from '@/types/article';
-import { MotionFadeUp } from '@/components/motion/MotionFadeUp';
+import { FadeUp } from '@/components/animate/FadeUp';
 import { ArticleMeta } from './ArticleMeta';
 import { ArticleTags } from './ArticleTags';
 
@@ -9,7 +9,7 @@ interface ArticleHeaderProps {
 
 export function ArticleHeader({ article }: ArticleHeaderProps) {
   return (
-    <MotionFadeUp as="header" className="space-y-5">
+    <FadeUp as="header" className="space-y-5">
       <ArticleTags tags={article.tags} />
       <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl md:text-5xl md:leading-tight dark:text-zinc-100">
         {article.title}
@@ -22,6 +22,6 @@ export function ArticleHeader({ article }: ArticleHeaderProps) {
         publishedAt={article.publishedAt}
         readingTimeMinutes={article.readingTimeMinutes}
       />
-    </MotionFadeUp>
+    </FadeUp>
   );
 }
