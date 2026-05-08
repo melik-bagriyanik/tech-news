@@ -1,5 +1,7 @@
 import Link from 'next/link';
 import { CATEGORIES } from '@/lib/categories';
+import { getPopularTags } from '@/lib/api';
+import { SearchTag } from './SearchTag';
 
 interface CategoryNavProps {
   readonly currentTag: string | null;
@@ -17,13 +19,15 @@ function hrefForCategory(slug: string | null): string {
   return slug ? `/?tag=${slug}` : '/';
 }
 
-export function CategoryNav({ currentTag }: CategoryNavProps) {
+export async function CategoryNav({ currentTag }: CategoryNavProps) {
+  const suggestions = await getPopularTags();
+
   return (
     <nav
       aria-label="Categories"
-      className="-mx-4 overflow-x-auto px-4 py-1 sm:mx-0 sm:overflow-visible sm:px-0 sm:py-0"
+      className="-mx-4 flex items-center gap-3 px-4 py-1 sm:mx-0 sm:px-0 sm:py-0"
     >
-      <ul className="flex gap-2 sm:flex-wrap sm:gap-3">
+      <ul className="flex flex-1 gap-2 overflow-x-auto sm:flex-wrap sm:gap-3 sm:overflow-visible">
         {CATEGORIES.map((c) => {
           const active = c.slug === currentTag;
           return (
@@ -39,6 +43,7 @@ export function CategoryNav({ currentTag }: CategoryNavProps) {
           );
         })}
       </ul>
+      <SearchTag currentTag={currentTag} suggestions={suggestions} />
     </nav>
   );
 }

@@ -3,6 +3,8 @@ import type { Article, ArticleAuthor, ArticleDetail, GetArticlesParams } from '@
 const API_BASE = 'https://dev.to/api';
 const LIST_REVALIDATE_SECONDS = 300;
 const DETAIL_REVALIDATE_SECONDS = 600;
+const TAG_LIST_REVALIDATE_SECONDS = 3600;
+const TAG_SLUG_PATTERN = /^[a-z0-9]{1,30}$/;
 
 interface RawAuthor {
   name: string;
@@ -87,6 +89,24 @@ export async function getArticles({ page = 1, perPage = 12, tag }: GetArticlesPa
 
   const raw = (await res.json()) as RawArticleListItem[];
   return raw.map(mapArticle);
+}
+
+interface RawTag {
+  id: number;
+  name: string;
+}
+
+export async function getPopularTags(): Promise<readonly string[]> {
+  try {
+    const res = await fetch(`${API_BASE}/tags?per_page=100`, {
+      next: { revalidate: TAG_LIST_REVALIDATE_SECONDS, tags: ['popular-tags'] },
+    });
+    if (!res.ok) return [];
+    const raw = (await res.json()) as RawTag[];
+    return raw.map((t) => t.name).filter((n) => TAG_SLUG_PATTERN.test(n));
+  } catch {
+    return [];
+  }
 }
 
 export async function getArticleById(id: number): Promise<ArticleDetail | null> {

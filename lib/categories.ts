@@ -13,11 +13,11 @@ export const CATEGORIES: readonly Category[] = [
   { slug: 'tutorial', label: 'Tutorials' },
 ];
 
-const ALLOWED_SLUGS = new Set(
-  CATEGORIES.map((c) => c.slug).filter((s): s is string => s !== null),
-);
+const TAG_PATTERN = /^[a-z0-9]{1,30}$/;
 
 export function parseCategoryTag(raw: string | undefined): string | null {
   if (!raw) return null;
-  return ALLOWED_SLUGS.has(raw) ? raw : null;
+  const normalized = raw.trim().toLowerCase();
+  if (!TAG_PATTERN.test(normalized)) return null;
+  return normalized;
 }
