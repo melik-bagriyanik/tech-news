@@ -1,7 +1,7 @@
 export function ArticleCardSkeleton() {
   return (
     <output
-      className="flex h-full flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-zinc-200/70 motion-safe:animate-pulse"
+      className="flex h-full flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-zinc-200/70 motion-safe:animate-pulse dark:bg-zinc-900 dark:ring-zinc-800/70"
       aria-label="Loading article"
     >
       <div className="aspect-[16/9] w-full bg-zinc-200 dark:bg-zinc-800" />
