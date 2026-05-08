@@ -23,7 +23,7 @@ interface RawArticleListItem {
   user: RawAuthor;
 }
 
-function normalizeTagList(tagList: string[] | string | null | undefined): string[] {
+export function normalizeTagList(tagList: string[] | string | null | undefined): string[] {
   if (!tagList) return [];
   if (Array.isArray(tagList)) return tagList;
   return tagList
