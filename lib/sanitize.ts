@@ -1,39 +1,51 @@
-import DOMPurify, { type Config } from 'isomorphic-dompurify';
+import sanitizeHtml, { type IOptions } from 'sanitize-html';
 
-const SANITIZE_CONFIG: Config = {
-  ADD_ATTR: ['target', 'rel'],
-  FORBID_TAGS: ['script', 'style', 'iframe', 'object', 'embed', 'form', 'meta', 'link'],
-  FORBID_ATTR: ['onerror', 'onload', 'onclick', 'onmouseover', 'onfocus', 'onblur', 'onsubmit'],
-  ALLOWED_URI_REGEXP: /^(?:https?:|mailto:|tel:|#|\/|\?)/i,
+const ALLOWED_TAGS = [
+  'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+  'p', 'span', 'div', 'blockquote', 'pre', 'code', 'br', 'hr',
+  'strong', 'em', 'b', 'i', 'u', 's', 'del', 'ins', 'sub', 'sup', 'mark', 'small',
+  'ul', 'ol', 'li', 'dl', 'dt', 'dd',
+  'a', 'img', 'figure', 'figcaption', 'picture', 'source',
+  'table', 'thead', 'tbody', 'tfoot', 'tr', 'th', 'td', 'caption', 'colgroup', 'col',
+  'svg', 'path', 'g', 'circle', 'rect', 'line', 'polyline', 'polygon', 'ellipse',
+  'text', 'tspan', 'defs', 'use', 'title', 'desc',
+  'article', 'section', 'header', 'footer', 'nav', 'aside', 'main', 'time',
+];
+
+const SANITIZE_OPTIONS: IOptions = {
+  allowedTags: ALLOWED_TAGS,
+  allowedAttributes: {
+    a: ['href', 'name', 'title', 'target', 'rel'],
+    img: ['src', 'alt', 'title', 'width', 'height', 'loading', 'decoding'],
+    svg: ['xmlns', 'viewbox', 'width', 'height', 'fill', 'stroke', 'stroke-width', 'aria-hidden', 'role'],
+    path: ['d', 'fill', 'stroke', 'stroke-width', 'stroke-linecap', 'stroke-linejoin', 'transform'],
+    '*': ['id', 'class', 'lang', 'dir', 'aria-label', 'aria-hidden', 'role', 'data-*'],
+  },
+  allowedSchemes: ['http', 'https', 'mailto', 'tel'],
+  allowedSchemesAppliedToAttributes: ['href', 'src'],
+  allowProtocolRelative: false,
+  transformTags: {
+    a: (tagName, attribs) => {
+      const href = attribs.href ?? '';
+      if (/^https?:\/\//i.test(href)) {
+        return {
+          tagName,
+          attribs: { ...attribs, target: '_blank', rel: 'noopener noreferrer' },
+        };
+      }
+      return { tagName, attribs };
+    },
+    img: (tagName, attribs) => ({
+      tagName,
+      attribs: {
+        ...attribs,
+        loading: attribs.loading ?? 'lazy',
+        decoding: attribs.decoding ?? 'async',
+      },
+    }),
+  },
 };
 
-let hooksRegistered = false;
-
-function ensureHooks(): void {
-  if (hooksRegistered) return;
-  hooksRegistered = true;
-
-  DOMPurify.addHook('afterSanitizeAttributes', (node) => {
-    if (!node || typeof (node as Element).getAttribute !== 'function') return;
-    const el = node as Element;
-
-    if (el.tagName === 'A') {
-      const href = el.getAttribute('href');
-      if (href && /^https?:\/\//i.test(href)) {
-        el.setAttribute('target', '_blank');
-        el.setAttribute('rel', 'noopener noreferrer');
-      }
-      return;
-    }
-
-    if (el.tagName === 'IMG') {
-      if (!el.hasAttribute('loading')) el.setAttribute('loading', 'lazy');
-      if (!el.hasAttribute('decoding')) el.setAttribute('decoding', 'async');
-    }
-  });
-}
-
 export function sanitizeArticleHtml(html: string): string {
-  ensureHooks();
-  return DOMPurify.sanitize(html, SANITIZE_CONFIG);
+  return sanitizeHtml(html, SANITIZE_OPTIONS);
 }
