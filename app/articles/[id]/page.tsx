@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getArticleById, getArticles } from '@/lib/api';
+import { getArticleById } from '@/lib/api';
 import { ArticleBody } from '@/components/article/ArticleBody';
 import { ArticleCover } from '@/components/article/ArticleCover';
 import { ArticleHeader } from '@/components/article/ArticleHeader';
@@ -12,15 +12,6 @@ interface ArticlePageProps {
 }
 
 export const revalidate = 600;
-
-export async function generateStaticParams() {
-  try {
-    const articles = await getArticles({ perPage: 12 });
-    return articles.map((article) => ({ id: String(article.id) }));
-  } catch {
-    return [];
-  }
-}
 
 const NOT_FOUND_METADATA: Metadata = {
   title: 'Article not found',
